@@ -20,7 +20,7 @@ class Snake:
         self.ys.append(100)
 
     def move(self):
-        for i in range(1,len(self.xs)):
+        for i in range(len(self.xs)-1,0,-1):
             self.xs[i]=self.xs[i-1] #MOVE THE SNAKE
             self.ys[i]=self.ys[i-1]
 

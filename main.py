@@ -11,7 +11,16 @@ gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Snake')
 
 
-def exitgame():
+def exitgame(score):
+    gameDisplay.fill(white)
+    largeText=pygame.font.SysFont("cambria",50)
+    TextSurf, TextRect = text_objects("Your Final Score is "+str(score),largeText)
+    TextRect.center = ((display_width/2,display_height/2))
+    gameDisplay.blit(TextSurf,TextRect)
+    pygame.display.update()
+    pygame.mixer.music.stop()
+
+    pygame.time.wait(1000)
     pygame.quit()
     sys.exit()
 
@@ -43,7 +52,6 @@ def button(msg,x,y,w,h,ic,ac,action=None):  #BUTTON ON THE INTRO SCREEN
 
 
 def mainmenu():
-
     while True:
         for event in pygame.event.get():
             if event.type==QUIT:
@@ -61,17 +69,18 @@ def mainmenu():
 
 def startgame():
 
-    gameExit=False
-    gameDisplay.fill(white)
+    gameDisplay.fill(bright_green)
     mysnake = Snake()   #SNAKE OBJECT
+    score=0
+    pygame.mixer.music.load('music.mp3')
+    pygame.mixer.music.play(-1)
 
-    applex=random.randint(0,arena_width) #X COORDINATE OF APPLE
-    appley=random.randint(0,arena_height)   #Y COORDINATE OF APPLE
+    mousex=random.randint(0,arena_width) #X COORDINATE OF MOUSE
+    mousey=random.randint(0,arena_height)   #Y COORDINATE OF MOUSE
 
-    apple=pygame.Surface((20,20))   #RED TILE FOR APPLE
-    apple.fill(red)
+    mouse=pygame.image.load('mouse.png')
 
-    while not gameExit:
+    while True:
         for event in pygame.event.get():
             if event.type==QUIT:
                 exitgame()
@@ -85,28 +94,33 @@ def startgame():
                 elif event.key==K_DOWN:
                     mysnake.changedir(270)
 
-        gameDisplay.fill(white)
+        gameDisplay.fill(bright_green)
 
-        gameDisplay.blit(apple,(applex,appley))
+        gameDisplay.blit(mouse,(mousex,mousey))
 
         for i in range(len(mysnake.xs)):
             pt=pygame.Surface((tile_width,tile_width))
-            pt.fill(green)
+            pt.fill(brown)
             gameDisplay.blit(pt,(mysnake.xs[i],mysnake.ys[i]))  #XS AND YS REPRESENT THE X AND Y COORDINATES OF THE DIFFERENT TILES IN THE SNAKE BODY
                                     #WE DISPLAY EVERY TILE IN THE SNAKE BODY
         if mysnake.arenacollision():    #CHECK FOR ARENA COLLISION
-            exitgame()
+            exitgame(score)
 
         if mysnake.selfcollision():     #CHECK FOR COLLISION WITH SELF
-            exitgame()
+            exitgame(score)
 
-        if mysnake.eatapple(applex,appley):     #IF IT HAS COLLIDED WITH AN APPLE
+        if mysnake.eatapple(mousex,mousey):     #IF IT HAS COLLIDED WITH A MOUSE
             mysnake.grow()      #INCREASE SNAKE SIZE
-            applex = random.randint(0,arena_width)  #ASSIGN NEW POSITION TO APPLE
-            appley = random.randint(0,arena_height)
-
+            mousex = random.randint(50,arena_width-50)  #ASSIGN NEW POSITION TO MOUSE
+            mousey = random.randint(50,arena_height-50)
+            score+=len(mysnake.xs)*5
 
         mysnake.move()      #MOVE THE SNAKE
+        scoreText=pygame.font.SysFont("calibri",20)
+        scoreSurf, scoreRect = text_objects("Your Score is : "+ str(score),scoreText)
+        scoreRect.center = ((arena_width/2,50))
+        gameDisplay.blit(scoreSurf,scoreRect)
+
 
         pygame.display.update()
 
@@ -114,6 +128,3 @@ def startgame():
 
 
 mainmenu()
-
-pygame.time.wait(5000)
-exitgame()

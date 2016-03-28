@@ -6,7 +6,7 @@ from variables import *
 
 class Snake:
                                 #XS[0] IS THE SNAKE'S HEAD'S X COORDINATE
-    xs=[100,120,140,160]        #X COORDINATES OF THE TILES OCCUPIED BY SNAKE
+    xs=[160,140,120,100]        #X COORDINATES OF THE TILES OCCUPIED BY SNAKE
     ys=[100,100,100,100]
     dir = 0 #0, 90, 180, 270
 

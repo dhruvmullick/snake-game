@@ -6,9 +6,10 @@ Installation
 ----
 Copy the contents of the repo to your local system. This is a pygame based implementation. 
 
-The system must have installed: 
-  1. Python version >=2.7
-  2. pygame module.
+The system must have installed:
+  1. A Unix Distro/Mac OSX/ Windows
+  2. Python version >=2.7
+  3. pygame module.
   
 In case you dont havae pygame module installed, get the appropriate installer from : 
   [Download Link](http://www.pygame.org/download.shtml)
